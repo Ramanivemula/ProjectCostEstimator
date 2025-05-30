@@ -18,8 +18,5 @@ app.get('/',(req,res) => {
 const userRoutes = require('./routes/userRoutes');
 app.use('/api/users',userRoutes);
 
-const foodRoutes = require('./routes/foodRoutes');
-app.use('/api/food',foodRoutes);
-
 const PORT = process.env.PORT || 3000;
 app.listen(PORT,()=>console.log(`Server running on port ${PORT}`));
