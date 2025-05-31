@@ -22,10 +22,5 @@ app.use(cors({origin: allowedOrigins,credentials: true}));
 app.get('/', (req, res)=> res.send("API Working"));
 app.use('/api/auth', authRouter);
 app.use("/api/project", projectRoutes);
-<<<<<<< HEAD
-
-=======
->>>>>>> 8d9dc049f844f1c3b596d3e42fa424cecc983dc4
-
 
 app.listen(port, ()=> console.log(`Server started on PORT:${port}`));
