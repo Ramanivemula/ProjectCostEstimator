@@ -67,7 +67,7 @@ const Register = () => {
         <h2 className="text-3xl text-center text-white font-semibold mb-6">Create an Account</h2>
 
         <form className="space-y-5" onSubmit={handleSubmit}>
-          <input
+          {/* <input
             name="name"
             value={formData.name}
             onChange={handleChange}
@@ -75,7 +75,7 @@ const Register = () => {
             required
             placeholder="Full Name"
             className="w-full p-3 border border-cyan-400 rounded-lg bg-gray-800 text-white"
-          />
+          /> */}
 
           <input
             name="email"
