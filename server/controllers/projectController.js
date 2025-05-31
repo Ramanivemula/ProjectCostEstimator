@@ -47,8 +47,8 @@ export const getAllProjects = async (req, res) => {
     const userId = req.body.userId; //comes from JWT middleware
 
     const projects = await Project.find({ user: userId }).sort({ createdAt: -1 });
-
     res.json({projects});
+
   } catch (err) {
     console.error("Get All Projects Error:", err.message);
     res.status(500).json({ error: "Unable to fetch projects" });
