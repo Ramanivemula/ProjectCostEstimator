@@ -48,3 +48,69 @@ export const getAllProjects = async (req, res) => {
     res.status(500).json({ error: "Unable to fetch projects" });
   }
 };
+
+
+//delete project with id
+
+export const deleteProject = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleted = await Project.findByIdAndDelete(id);
+
+    if (!deleted) {
+      return res.status(404).json({ error: "Project not found" });
+    }
+
+    res.json({ message: "Project deleted successfully" });
+  } catch (err) {
+    console.error("Delete error:", err.message);
+    res.status(500).json({ error: "Failed to delete project" });
+  }
+};
+
+
+//update existing project
+export const updateProject = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      project_name,
+      desc,
+      timeline,
+      resources,
+      risk_buffer,
+      tools_infra_cost
+    } = req.body;
+
+    //Recalculate base cost
+    const base_cost = resources.reduce((total, res) => {
+      return total + (res.count * res.rate * res.hrs_per_week * timeline);
+    }, 0);
+
+    const riskCost = (risk_buffer / 100) * base_cost;
+    const total_cost = base_cost + riskCost + tools_infra_cost;
+
+    const updated = await Project.findByIdAndUpdate(id, {
+      project_name,
+      desc,
+      timeline,
+      resources,
+      risk_buffer,
+      tools_infra_cost,
+      base_cost,
+      total_cost,
+    }, { new: true });
+
+    if (!updated) {
+      return res.status(404).json({ error: "Project not found" });
+    }
+
+    res.json({
+      success: true,
+      message : "Project Updated Successfully"
+    });
+  } catch (err) {
+    console.error("Update error:", err.message);
+    res.status(500).json({ error: "Failed to update project" });
+  }
+};
