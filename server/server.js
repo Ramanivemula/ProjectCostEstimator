@@ -1,22 +1,25 @@
-const express = require('express');
-const dotenv = require('dotenv');
-const cors = require('cors');
-const connectDB = require('./config/db');
+import express from "express";
+import cors from "cors";
+import 'dotenv/config';
+import cookieParser from "cookie-parser";
+import connectDB from "./config/mongodb.js";
+import authRouter from "./routes/authRoutes.js";
 
-
-dotenv.config();
-connectDB();
 
 const app = express();
-app.use(cors());
+const port = process.env.PORT || 3000
+connectDB();
+
+const allowedOrigins = ['http://localhost:5173']
+
 app.use(express.json());
+app.use(cookieParser());
+app.use(cors({origin: allowedOrigins,credentials: true}));
 
-app.get('/',(req,res) => {
-    res.send('API is running...');
-});
 
-const userRoutes = require('./routes/userRoutes');
-app.use('/api/users',userRoutes);
+//API Endpoints
+app.get('/', (req, res)=> res.send("API Working"));
+app.use('/api/auth', authRouter);
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT,()=>console.log(`Server running on port ${PORT}`));
+
+app.listen(port, ()=> console.log(`Server started on PORT:${port}`));
