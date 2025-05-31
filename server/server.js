@@ -23,5 +23,4 @@ app.get('/', (req, res)=> res.send("API Working"));
 app.use('/api/auth', authRouter);
 app.use("/api/project", projectRoutes);
 
-
 app.listen(port, ()=> console.log(`Server started on PORT:${port}`));
